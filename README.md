@@ -1,4 +1,4 @@
-# yoga_app
+# Yoga_app
 
 A Yoga Flutter APP  UI.
 
