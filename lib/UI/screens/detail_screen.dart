@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 import 'package:yoga_app/UI/screens/home_screen.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -13,6 +14,8 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   List info = [];
+  bool _playvideo = false;
+  late VideoPlayerController _controller;
   _readData() async {
     await DefaultAssetBundle.of(context)
         .loadString('json/videoinfo.json')
@@ -34,145 +37,187 @@ class _DetailScreenState extends State<DetailScreen> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: _playvideo==false?BoxDecoration(
               gradient: LinearGradient(
             colors: [
               Colors.deepPurpleAccent,
               Colors.indigoAccent.withOpacity(0.8),
             ],
-          )),
+          )):BoxDecoration(
+            color: Colors.purple
+          ),
           child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 200,
-                  child: Column(
-                    children: [
-                      Container(
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              height: 10,
-                            ),
-                            GestureDetector(
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                size: 20,
-                                color: Colors.white,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => DetailScreen()));
-                              },
-                            ),
-                            Expanded(
-                              child: Row(),
-                            ),
-                            Icon(
-                              Icons.info_outline,
-                              size: 20,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
+                child: _playvideo == false
+                    ? Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 200,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Legs Toning ',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 25),
-                            ),
-                            Text(
-                              'and Glutes Workout ',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 25),
+                            Container(
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  GestureDetector(
+                                    child: Icon(
+                                      Icons.arrow_back_ios,
+                                      size: 20,
+                                      color: Colors.white,
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailScreen()));
+                                    },
+                                  ),
+                                  Expanded(
+                                    child: Row(),
+                                  ),
+                                  Icon(
+                                    Icons.info_outline,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              ),
                             ),
                             SizedBox(
                               height: 10,
                             ),
-                            Row(
-                              children: [
-                                Container(
-                                  height: 30,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    gradient: LinearGradient(colors: [
-                                      Colors.white70.withOpacity(0.3),
-                                      Colors.white70.withOpacity(0.3),
-                                    ]),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.timer,
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Legs Toning ',
+                                    style: TextStyle(
                                         color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 25),
+                                  ),
+                                  Text(
+                                    'and Glutes Workout ',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 25),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 30,
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          gradient: LinearGradient(colors: [
+                                            Colors.white70.withOpacity(0.3),
+                                            Colors.white70.withOpacity(0.3),
+                                          ]),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.timer,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              '68 Min',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                      SizedBox(
-                                        width: 5,
+                                      Expanded(
+                                        child: Container(),
                                       ),
-                                      Text(
-                                        '68 Min',
-                                        style: TextStyle(
-                                          color: Colors.white,
+                                      Container(
+                                        height: 30,
+                                        width: 200,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          gradient: LinearGradient(colors: [
+                                            Colors.white70.withOpacity(0.3),
+                                            Colors.white70.withOpacity(0.3),
+                                          ]),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.handyman,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              'Resistent band, Kettlebell',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            )
+                                          ],
                                         ),
                                       )
                                     ],
                                   ),
-                                ),
-                                Expanded(
-                                  child: Container(),
-                                ),
-                                Container(
-                                  height: 30,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    gradient: LinearGradient(colors: [
-                                      Colors.white70.withOpacity(0.3),
-                                      Colors.white70.withOpacity(0.3),
-                                    ]),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.handyman,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        'Resistent band, Kettlebell',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
+                      )
+                    : Container(
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 100,
+                              child: Row(
+                                children: [
+                                  InkWell(
+                                    onTap: (){
+
+                                    },
+                                    child: Icon(
+                                      Icons.arrow_back_ios,
+                                      size: 25,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+
+                                    ),
+
+                                  ),
+                                  Icon(
+                                    Icons.info,
+                                    size: 25,
+                                    color: Colors.white,
+                                  ),
+                                ],
+
+                              ),
+                            ),
+                            _playview(context)
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
               ),
               Expanded(
                   child: Container(
@@ -209,9 +254,10 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                       Expanded(
                         child: ListView.builder(
-                          itemCount: info.length,
-                            itemBuilder: (_, int index){
+                            itemCount: info.length,
+                            itemBuilder: (_, int index) {
                               return GestureDetector(
+
                                 child: Container(
                                   height: 150,
                                   child: Column(
@@ -222,47 +268,48 @@ class _DetailScreenState extends State<DetailScreen> {
                                             height: 100,
                                             width: 100,
                                             decoration: BoxDecoration(
-                                              color: Colors.grey.withOpacity(0.4),
-                                              borderRadius: BorderRadius.circular(10),
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                  info[index]["thumbnail"]
-                                                )
-                                              )
-                                            ),
+                                                color: Colors.grey
+                                                    .withOpacity(0.4),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                image: DecorationImage(
+                                                    image: AssetImage(
+                                                        info[index]
+                                                            ["thumbnail"]))),
                                           ),
                                           SizedBox(
                                             width: 30,
-
                                           ),
                                           Container(
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.all(8.0),
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                      info[index]["title"],
+                                                    info[index]["title"],
                                                     style: TextStyle(
-                                                      fontWeight: FontWeight.w700,
-                                                      fontSize: 16,
-                                                      color: Colors.black87
-                                                    ),
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 16,
+                                                        color: Colors.black87),
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   height: 10,
-
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsets.all(8.0),
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
                                                   child: Text(
                                                     info[index]["time"],
                                                     style: TextStyle(
-                                                        fontWeight: FontWeight.w700,
+                                                        fontWeight:
+                                                            FontWeight.w700,
                                                         fontSize: 16,
-                                                        color: Colors.black87
-                                                    ),
+                                                        color: Colors.black87),
                                                   ),
                                                 )
                                               ],
@@ -272,7 +319,6 @@ class _DetailScreenState extends State<DetailScreen> {
                                       ),
                                       SizedBox(
                                         height: 10,
-
                                       ),
                                       Row(
                                         children: [
@@ -280,22 +326,25 @@ class _DetailScreenState extends State<DetailScreen> {
                                             height: 25,
                                             width: 100,
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(10),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
                                               gradient: LinearGradient(colors: [
-                                                Colors.deepPurpleAccent.withOpacity(0.3),
-                                                Colors.deepPurpleAccent.withOpacity(0.3),
+                                                Colors.deepPurpleAccent
+                                                    .withOpacity(0.3),
+                                                Colors.deepPurpleAccent
+                                                    .withOpacity(0.3),
                                               ]),
                                             ),
                                             child: Row(
                                               children: [
-
                                                 SizedBox(
                                                   width: 5,
                                                 ),
                                                 Text(
                                                   '17 secs rest',
                                                   style: TextStyle(
-                                                    color: Colors.deepPurpleAccent,
+                                                    color:
+                                                        Colors.deepPurpleAccent,
                                                   ),
                                                 )
                                               ],
@@ -304,42 +353,47 @@ class _DetailScreenState extends State<DetailScreen> {
                                           Container(
                                             child: Row(
                                               children: [
-                                                for (int i=0; i<70; i++)
-                                                Container(
-                                                  width: 3,
-                                                  height: 1,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    gradient: LinearGradient(colors: [
-                                                      Colors.deepPurpleAccent.withOpacity(0.3),
-                                                      Colors.deepPurpleAccent.withOpacity(0.3),
-                                                    ]),
-                                                  ),
-
-                                                )
-
+                                                for (int i = 0; i < 90; i++)
+                                                  Container(
+                                                    width: 3,
+                                                    height: 1,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      gradient: LinearGradient(
+                                                          colors: [
+                                                            Colors
+                                                                .deepPurpleAccent
+                                                                .withOpacity(
+                                                                    0.3),
+                                                            Colors
+                                                                .deepPurpleAccent
+                                                                .withOpacity(
+                                                                    0.3),
+                                                          ]),
+                                                    ),
+                                                  )
                                               ],
-
                                             ),
                                           )
                                         ],
                                       )
-
-
                                     ],
                                   ),
                                 ),
+
+
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HomePage()));
+                                  _onTapVideo(index);
+                                  setState(() {
+                                    if (_playvideo == false) {
+                                      _playvideo = true;
+                                    }
+                                  });
                                 },
-
-
                               );
-
-                        }),
+                            }),
                       )
                     ],
                   ),
@@ -351,4 +405,35 @@ class _DetailScreenState extends State<DetailScreen> {
       ),
     );
   }
+  Widget _playview(BuildContext context){
+    final controller = _controller;
+    if (controller!=null&&controller.value.isInitialized){
+      return Container(
+        height: 300,
+        width: 300,
+        child: VideoPlayer(controller),
+      );
+    }
+    else{
+      return Text('Please Wait!');
+    }
+
+
+  }
+  _onTapVideo(int index){
+    final controller = VideoPlayerController.network(info[index]["VideoUrl"]);
+    _controller= controller;
+    setState(() {
+
+    });
+    controller ..initialize().then((_){
+      controller.play();
+
+    });
+
+
+  }
 }
+
+
+
