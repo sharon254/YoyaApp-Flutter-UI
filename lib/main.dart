@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yoga_app/UI/screens/detail_screen.dart';
 
 import 'UI/screens/home_screen.dart';
 

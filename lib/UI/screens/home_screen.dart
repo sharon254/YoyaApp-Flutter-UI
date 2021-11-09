@@ -15,6 +15,7 @@ class _HomePageState extends State<HomePage> {
 
   getFoodCategories() {
     // later work on getting data from the api here
+    //Text(exerciseCategories[index].name,
     exerciseCategories = [
       ExerciseCategory("Arms", "assets/images/brachioplasty.png"),
       ExerciseCategory("Butt", "assets/images/butt.png"),
@@ -61,10 +62,18 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             width: 10,
           ),
-          Icon(
-            Icons.arrow_forward_ios,
-            size: 20,
-            color: Colors.black,
+          GestureDetector(
+            child: Icon(
+              Icons.arrow_forward_ios,
+              size: 20,
+              color: Colors.black,
+            ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DetailScreen()),
+                );
+              }
           ),
         ],
       ),
@@ -258,21 +267,32 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Exercises',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
                 Container(
-                  child:Flexible(
+                  child: Flexible(
                     child: GridView.builder(
-                        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 200,
-                            childAspectRatio: 3 / 2,
-                            crossAxisSpacing: 20,
-                            mainAxisSpacing: 20),
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent: 200,
+                                childAspectRatio: 3 / 2,
+                                crossAxisSpacing: 20,
+                                mainAxisSpacing: 20),
                         itemCount: exerciseCategories.length,
                         itemBuilder: (BuildContext ctx, index) {
                           return Container(
                             alignment: Alignment.center,
-                            child: Text(exerciseCategories[index].name),
-
                             decoration: BoxDecoration(
                               boxShadow: [
                                 BoxShadow(
@@ -282,11 +302,19 @@ class _HomePageState extends State<HomePage> {
                                   offset: Offset(0, 3),
                                 ),
                               ],
-                                image: DecorationImage(
-                                    image: AssetImage(exerciseCategories[index].image),
-
-
-                                ),
+                              image: DecorationImage(
+                                image:
+                                    AssetImage(exerciseCategories[index].image),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                Text(exerciseCategories[index].name,),
+                                ],
+                              ),
                             ),
                           );
                         }),
