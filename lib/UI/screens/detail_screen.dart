@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:yoga_app/UI/screens/home_screen.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({Key? key}) : super(key: key);
@@ -212,7 +213,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             itemBuilder: (_, int index){
                               return GestureDetector(
                                 child: Container(
-                                  height: 135,
+                                  height: 150,
                                   child: Column(
                                     children: [
                                       Row(
@@ -221,6 +222,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                             height: 100,
                                             width: 100,
                                             decoration: BoxDecoration(
+                                              color: Colors.grey.withOpacity(0.4),
                                               borderRadius: BorderRadius.circular(10),
                                               image: DecorationImage(
                                                 image: AssetImage(
@@ -228,13 +230,112 @@ class _DetailScreenState extends State<DetailScreen> {
                                                 )
                                               )
                                             ),
+                                          ),
+                                          SizedBox(
+                                            width: 30,
+
+                                          ),
+                                          Container(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                      info[index]["title"],
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 16,
+                                                      color: Colors.black87
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    info[index]["time"],
+                                                    style: TextStyle(
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 16,
+                                                        color: Colors.black87
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+
+                                      ),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            height: 25,
+                                            width: 100,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(10),
+                                              gradient: LinearGradient(colors: [
+                                                Colors.deepPurpleAccent.withOpacity(0.3),
+                                                Colors.deepPurpleAccent.withOpacity(0.3),
+                                              ]),
+                                            ),
+                                            child: Row(
+                                              children: [
+
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  '17 secs rest',
+                                                  style: TextStyle(
+                                                    color: Colors.deepPurpleAccent,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Row(
+                                              children: [
+                                                for (int i=0; i<70; i++)
+                                                Container(
+                                                  width: 3,
+                                                  height: 1,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    gradient: LinearGradient(colors: [
+                                                      Colors.deepPurpleAccent.withOpacity(0.3),
+                                                      Colors.deepPurpleAccent.withOpacity(0.3),
+                                                    ]),
+                                                  ),
+
+                                                )
+
+                                              ],
+
+                                            ),
                                           )
                                         ],
                                       )
 
+
                                     ],
                                   ),
                                 ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HomePage()));
+                                },
+
 
                               );
 
