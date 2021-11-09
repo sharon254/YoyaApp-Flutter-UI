@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +11,23 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  List info = [];
+  _readData() async {
+    await DefaultAssetBundle.of(context)
+        .loadString('json/videoinfo.json')
+        .then((s) {
+      setState(() {
+        info = json.decode(s);
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    _readData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,10 +55,18 @@ class _DetailScreenState extends State<DetailScreen> {
                             SizedBox(
                               height: 10,
                             ),
-                            Icon(
-                              Icons.arrow_back_ios,
-                              size: 20,
-                              color: Colors.white,
+                            GestureDetector(
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DetailScreen()));
+                              },
                             ),
                             Expanded(
                               child: Row(),
@@ -147,45 +174,76 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
               ),
               Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(topRight: Radius.circular(50)),
+                  child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius:
+                      BorderRadius.only(topRight: Radius.circular(50)),
                 ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text('Circuit 1 : Legs Toning ',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700
-                              ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Circuit 1 : Legs Toning ',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w700),
+                          ),
+                          Expanded(
+                            child: Container(),
+                          ),
+                          Icon(
+                            Icons.repeat,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text('3 sets'),
+                          SizedBox(
+                            width: 15,
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: info.length,
+                            itemBuilder: (_, int index){
+                              return GestureDetector(
+                                child: Container(
+                                  height: 135,
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            height: 100,
+                                            width: 100,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(10),
+                                              image: DecorationImage(
+                                                image: AssetImage(
+                                                  info[index]["thumbnail"]
+                                                )
+                                              )
+                                            ),
+                                          )
+                                        ],
+                                      )
 
-                            ),
-                            Expanded(
-                              child: Container(),
-                            ),
-                            Icon(
-                              Icons.repeat,
+                                    ],
+                                  ),
+                                ),
 
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text('3 sets'),
-                            SizedBox(
-                              width: 15,
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
+                              );
+
+                        }),
+                      )
+                    ],
                   ),
-              )
-              )
+                ),
+              ))
             ],
           ),
         ),
